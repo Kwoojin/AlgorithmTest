@@ -6,9 +6,13 @@ public class MyHash {
     }
 
     public class Slot {
+        String key;
         String value;
-        Slot(String value){
+        Slot next;
+        Slot(String key, String value){
+            this.key = key;
             this.value = value;
+            next=null;
         }
     }
 
@@ -19,9 +23,20 @@ public class MyHash {
     public boolean saveData(String key, String value) {
         Integer address = this.hashFunc(key);
         if(this.hashTable[address] != null) {
-            this.hashTable[address].value = value;
+            Slot findSlot = this.hashTable[address];
+            Slot prevSlot = this.hashTable[address];
+            while(findSlot != null){
+                if(findSlot.key == key){
+                    findSlot.value = value;
+                    return true;
+                } else {
+                    prevSlot = findSlot;
+                    findSlot = findSlot.next;
+                }
+            }
+            prevSlot.next = new Slot(key, value);
         } else {
-            this.hashTable[address] = new Slot(value);
+            this.hashTable[address] = new Slot(key, value);
         }
         return true;
     }
@@ -29,7 +44,15 @@ public class MyHash {
     public String getData(String key) {
         Integer address = this.hashFunc(key);
         if(this.hashTable[address] != null) {
-            return this.hashTable[address].value;
+            Slot findSlot = this.hashTable[address];
+            while(findSlot != null){
+                if(findSlot.key == key){
+                    return findSlot.value;
+                } else {
+                    findSlot = findSlot.next;
+                }
+            }
+            return null;
         } else {
             return null;
         }
@@ -38,9 +61,11 @@ public class MyHash {
     public static void main(String[] args) {
         MyHash mainObject = new MyHash(20);
         mainObject.saveData("DaveLee", "01022223333");
-        mainObject.saveData("fung-coding", "01033334444");
-        String daveLee = mainObject.getData("DaveLee");
-        System.out.println("daveLee = " + daveLee);
+        mainObject.saveData("fun-coding", "01033334444");
+        mainObject.saveData("David", "01044445555");
+        mainObject.saveData("Dave", "01055556666");
+        String data = mainObject.getData("DaveLee");
+        System.out.println("data = " + data);
     }
 }
 

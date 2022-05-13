@@ -5,7 +5,7 @@ public class MyHash {
         this.hashTable = new Slot[size];
     }
 
-    public class Slot {
+    public static class Slot {
         String key;
         String value;
         Slot next;
@@ -21,7 +21,7 @@ public class MyHash {
     }
 
     public boolean saveData(String key, String value) {
-        Integer address = this.hashFunc(key);
+        int address = this.hashFunc(key);
         if(this.hashTable[address] != null) {
             Slot findSlot = this.hashTable[address];
             Slot prevSlot = this.hashTable[address];
@@ -42,7 +42,7 @@ public class MyHash {
     }
 
     public String getData(String key) {
-        Integer address = this.hashFunc(key);
+        int address = this.hashFunc(key);
         if(this.hashTable[address] != null) {
             Slot findSlot = this.hashTable[address];
             while(findSlot != null){

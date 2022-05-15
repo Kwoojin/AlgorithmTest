@@ -1,4 +1,4 @@
-package rhs_test_1;
+package boj.rhs_test_1;
 
 import java.util.Scanner;
 

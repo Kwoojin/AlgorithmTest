@@ -5,10 +5,10 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 
 import java.util.StringTokenizer;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class Meeting {
+public class Wedding {
 	static int N;
 	static ArrayList<Reser> arr;
 	
@@ -20,34 +20,37 @@ public class Meeting {
 	static void process() {
 		Collections.sort(arr);
 		
-		int time=0, answer=0;
+		int answer=Integer.MIN_VALUE, peo=0;
 		for(Reser res : arr) {
-			if(time <= res.start) {
-				answer++;
-				time = res.end;
+			if(res.state == 'S') {
+				peo++;
+				answer = Math.max(answer, peo);
+			} else {
+				peo--;
 			}
 		}
-		
-		System.out.print(answer);
+		System.out.println(answer);
 	}
 	
 	static void input() {
-		FastReader fr = new FastReader();
-		N = fr.nextInt();
+		Reader rd = new Reader();
+		N = rd.nextInt();
 		
 		arr = new ArrayList<>();
 		while(N-- > 0) {
-			int s = fr.nextInt();
-			int e = fr.nextInt();
-			arr.add(new Reser(s, e));
+			int s = rd.nextInt();
+			int e = rd.nextInt();
+			
+			arr.add(new Reser(s, 'S'));
+			arr.add(new Reser(e, 'E'));
 		}
 	}
 	
-	static class FastReader {
-		StringTokenizer st;
+	static class Reader {
 		BufferedReader br;
+		StringTokenizer st;
 		
-		public FastReader() {
+		public Reader() {
 			br = new BufferedReader(new InputStreamReader(System.in));
 		}
 		
@@ -55,7 +58,7 @@ public class Meeting {
 			if(st == null || !st.hasMoreElements()) {
 				try {
 					st = new StringTokenizer(br.readLine());
-				} catch(IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -68,18 +71,21 @@ public class Meeting {
 	}
 	
 	static class Reser implements Comparable<Reser> {
-		public int start;
-		public int end;
-		public Reser(int start, int end) {
-			this.start = start;
-			this.end = end;
+		int time;
+		char state;
+		public Reser(int time, char state) {
+			this.time = time;
+			this.state = state;
 		}
 		
 		@Override
 		public int compareTo(Reser ob) {
-			if(this.end == ob.end) return this.start - ob.start;
-			else return this.end - ob.end;
+			if (this.time == ob.time) return this.state - ob.state;
+			else return this.time - ob.time;
 		}
 	}
 }
+
+
+
 

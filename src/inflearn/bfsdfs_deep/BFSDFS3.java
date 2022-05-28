@@ -38,15 +38,16 @@ public class BFSDFS3 {
 
         System.out.print(max);
     }
-}
 
+    static class Problem {
+        int s;
+        int t;
+        public Problem(int s, int t){
+            this.s = s;
+            this.t = t;
+        }
 
-class Problem {
-    int s;
-    int t;
-    public Problem(int s, int t){
-        this.s = s;
-        this.t = t;
     }
-
 }
+
+
